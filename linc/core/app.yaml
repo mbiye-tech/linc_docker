@@ -1,28 +1,46 @@
 runtime: php
-env: flex
-
-runtime_config: 
-
-document_root: public
-
-# Ensure we skip ".env", which is only for local development
-skip_files: 
-    - .env
-
-automatic_scaling:
-    min_num_instances: 1
-    max_num_instances: 1
-
-resources:
-    cpu: 2
-    memory_gb: 4
-    disk_size_gb: 100
-
+api_version: '1.0'
+env: flexible
+threadsafe: true
 env_variables:
-    # Put production environment variables here.
-    APP_DEBUG: true
-    APP_ENV: production
-    APP_KEY: base64:IJoTuBv4hZ048XKW+Ss/mGBEEtmN0p4MI3zHDaJLAvg=
-    APP_NAME: "GCP App - CODE"
-
-    LOG_LEVEL: debug
+  APP_DEBUG: 'True'
+  APP_ENV: local
+  APP_KEY: 'base64:FqwXmLtL6szdWqIVydb7nKs2eyvHib4lf6d5l6A/XW4='
+  APP_LOG: daily
+  APP_TIMEZONE: UTC
+  CACHE_DRIVER: database
+  DB_CONNECTION: mysql
+  DB_DATABASE: rlinc
+  DB_HOST: localhost
+  DB_PASSWORD: 101@RLpay
+  DB_PORT: '3306'
+  DB_SOCKET: '/cloudsql/appdeploy-402517:us-central1:rlinc'
+  DB_USERNAME: root
+  GOOGLE_VISION_PROJECT_ID: appdeploy-402517
+  LOG_DELETE: 'True'
+  MAIL_DRIVER: smtp
+  MAIL_HOST: smtp.sparkpostmail.com
+  MAIL_PASSWORD: None
+  MAIL_PORT: '587'
+  MAIL_USERNAME: sparkpost_username
+  QUEUE_DRIVER: database
+  SESSION_DRIVER: database
+automatic_scaling:
+  cool_down_period: 120s
+  min_num_instances: 2
+  max_num_instances: 20
+  cpu_utilization:
+    target_utilization: 0.5
+liveness_check:
+  initial_delay_sec: '300'
+  check_interval_sec: '30'
+  timeout_sec: '4'
+  failure_threshold: 4
+  success_threshold: 2
+readiness_check:
+  check_interval_sec: '5'
+  timeout_sec: '4'
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: '300'
+service_account: appdeploy-402517@appspot.gserviceaccount.com
