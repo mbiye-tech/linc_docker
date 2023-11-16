@@ -16,16 +16,19 @@
 # repository as source. Here we use the 'docker' image to build the image and
 # tag it with the name of the image.
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-entrypoint: 'bash'
+- name: 'docker'
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/helloworld-image', '.' ]
 
-args:
-        - '-c'
-        - |
-          gcloud config set app/cloud_build_timeout 3600 \
-          && gcloud app deploy -q --promote -v=$BUILD_ID \
-          --project=$PROJECT_ID
+# By default, all built docker images will be lost once the build is complete.
+# Rather than writing a build step to push this image, you can simply list the
+# image below and it will automatically be uploaded to Google Cloud Container
+# Registry.
+images:
+- 'gcr.io/$PROJECT_ID/helloworld-image'
 
-timeout: '3600s'
+# You can organize your builds with tags
+tags: ['gcp-cloud-build-sample-build']
 
-
+# You can configure more options than the ones listed here. Visit
+# https://cloud.google.com/cloud-build/docs/build-config to see the full list of
+# available options.
