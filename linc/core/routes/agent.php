@@ -7,7 +7,6 @@ Route::namespace('Agent\Auth')->controller('LoginController')->group(function ()
     Route::get('/', 'showLoginForm')->name('login');
     Route::post('/', 'login')->name('login');
     Route::get('logout', 'logout')->name('logout');
-
     // Agent Password Reset
     Route::controller('ForgotPasswordController')->group(function () {
         Route::get('password/reset', 'showLinkRequestForm')->name('password.reset');
@@ -15,7 +14,6 @@ Route::namespace('Agent\Auth')->controller('LoginController')->group(function ()
         Route::get('password/code-verify', 'codeVerify')->name('password.code.verify');
         Route::post('password/verify-code', 'verifyCode')->name('password.verify.code');
     });
-
     Route::controller('ResetPasswordController')->group(function () {
         Route::get('password/reset/{token}', 'showResetForm')->name('password.reset.form');
         Route::post('password/reset/change', 'reset')->name('password.change');
